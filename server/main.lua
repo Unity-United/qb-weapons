@@ -145,7 +145,7 @@ QBCore.Functions.CreateCallback('prison:server:checkThrowable', function(source,
     local throwable = false
     for _,v in pairs(Config.Throwables) do
         if QBCore.Shared.Weapons[weapon].name == 'weapon_'..v then
-            Player.Functions.RemoveItem(v, 1)
+            Player.Functions.RemoveItem('weapon_'..v, 1)
             throwable = true
             break
         end
@@ -170,6 +170,7 @@ end)
 RegisterNetEvent("weapons:server:TakeBackWeapon", function(k)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
     local itemdata = Config.WeaponRepairPoints[k].RepairingData.WeaponData
     itemdata.info.quality = 100
     Player.Functions.AddItem(itemdata.name, 1, false, itemdata.info)
@@ -182,6 +183,7 @@ end)
 RegisterNetEvent("weapons:server:SetWeaponQuality", function(data, hp)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
     local WeaponSlot = Player.PlayerData.items[data.slot]
     WeaponSlot.info.quality = hp
     Player.Functions.SetInventory(Player.PlayerData.items, true)
